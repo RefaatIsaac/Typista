@@ -1213,8 +1213,8 @@ function typingChecker(event){
             clearInterval(setCounter);
             dashboardScores();
             charsAccurCalc();
-            dailyProgress();
             todayAttempts();
+            dailyProgress();
             document.getElementById('moon_cont').style.animationPlayState = 'initial';
             document.getElementById('back_animi_cont').setAttribute('class','animi_controler');
             for (let i = 0; i < document.getElementsByClassName('fingers').length; i++) {
@@ -1261,54 +1261,30 @@ function keyDownFunc(event){
         }
     }
 }
-// function TotalSpentTime(){
-//     let attemptsMins = document.getElementsByClassName('attmpt-min'),
-//     attemptsScs = document.getElementsByClassName('attmpt-sc');
-//     totalHours.innerText =0;
-//     totalMinutes.innerText=0;
-//     totalSeconds.innerText = 0;
-//  let allSpentMins = 0;
-//  let allSpentScs = 0;
-//    for (let i = 0; i < attemptsMins.length; i++) {
-//      allSpentMins = allSpentMins + parseInt(attemptsMins[i].innerText);
-//    }
-//    for (let i = 0; i < attemptsScs.length; i++) {
-//      allSpentScs = allSpentScs + parseInt(attemptsScs[i].innerText);
-//  }
-//      if(parseInt(totalMinutes.innerText) + allSpentMins > 59){
-//          totalMinutes.innerText = (parseInt(totalMinutes.innerText) + allSpentMins) % 60;
-//          totalHours.innerText = parseInt(totalHours.innerText) + Math.floor((parseInt(totalMinutes.innerText) + allSpentMins) / 60);
-//      }else{
-//          totalMinutes.innerText = parseInt(totalMinutes.innerText)+ allSpentMins;
-//      }
-//     if(parseInt(totalSeconds.innerText) + allSpentScs > 59){
-//         totalSeconds.innerText = (parseInt(totalSeconds.innerText) + allSpentScs) % 60;
-//         totalMinutes.innerText = parseInt(totalMinutes.innerText) + Math.floor((parseInt(totalSeconds.innerText) + allSpentScs) / 60);
-//     }else{totalSeconds.innerText = parseInt(totalSeconds.innerText) + allSpentScs}
-// }
-function TotalSpentTime(scnds, mnts, outScnds, outMnts, outHrs){
-    outHrs.innerText =0;
-    outMnts.innerText=0;
-    outScnds.innerText = 0;
-    let allSpentMins = 0;
-    let allSpentScs = 0;
-    for (let i = 0; i < scnds.length; i++) {
-        allSpentScs += parseInt(scnds[i].innerText);
-    }
-    for (let i = 0; i < mnts.length; i++) {
-        allSpentMins += parseInt(mnts[i].innerText);
-    }
-    if(parseInt(outScnds.innerText) + allSpentScs > 59){
-        outScnds.innerText = (parseInt(outScnds.innerText) + allSpentScs) % 60;
-        outMnts.innerText = parseInt(outMnts.innerText) + Math.floor((parseInt(totalSeconds.innerText) + allSpentScs) / 60);
-        }else{outScnds.innerText = parseInt(outScnds.innerText) + allSpentScs}
-    if(parseInt(outMnts.innerText) + allSpentMins > 59){
-        outMnts.innerText = (parseInt(outMnts.innerText) + allSpentMins) % 60;
-        outHrs.innerText = parseInt(outHrs.innerText) + Math.floor((parseInt(outMnts.innerText) + allSpentMins) / 60);
-    }else{
-        outMnts.innerText = parseInt(outMnts.innerText)+ allSpentMins;
-    }
-    console.log(allSpentMins +':'+allSpentScs);
+function TotalSpentTime(){
+    let attemptsMins = document.getElementsByClassName('attmpt-min'),
+    attemptsScs = document.getElementsByClassName('attmpt-sc');
+    totalHours.innerText =0;
+    totalMinutes.innerText=0;
+    totalSeconds.innerText = 0;
+ let allSpentMins = 0;
+ let allSpentScs = 0;
+   for (let i = 0; i < attemptsMins.length; i++) {
+     allSpentMins = allSpentMins + parseInt(attemptsMins[i].innerText);
+   }
+   for (let i = 0; i < attemptsScs.length; i++) {
+     allSpentScs = allSpentScs + parseInt(attemptsScs[i].innerText);
+ }
+     if(parseInt(totalMinutes.innerText) + allSpentMins > 59){
+         totalMinutes.innerText = (parseInt(totalMinutes.innerText) + allSpentMins) % 60;
+         totalHours.innerText = parseInt(totalHours.innerText) + Math.floor((parseInt(totalMinutes.innerText) + allSpentMins) / 60);
+     }else{
+         totalMinutes.innerText = parseInt(totalMinutes.innerText)+ allSpentMins;
+     }
+    if(parseInt(totalSeconds.innerText) + allSpentScs > 59){
+        totalSeconds.innerText = (parseInt(totalSeconds.innerText) + allSpentScs) % 60;
+        totalMinutes.innerText = parseInt(totalMinutes.innerText) + Math.floor((parseInt(totalSeconds.innerText) + allSpentScs) / 60);
+    }else{totalSeconds.innerText = parseInt(totalSeconds.innerText) + allSpentScs}
 }
 function dashboardScores() {
     let attemptsAccuracies = document.getElementsByClassName('attmpt-accuracy'),
@@ -1423,7 +1399,7 @@ function  todayAttempts() {
     attemptDetailsCont.appendChild(attemptTime);
     attempt.appendChild(attemptDetailsCont);
     attemptsList.appendChild(attempt);
-    TotalSpentTime(attemptsScs, attemptsMins, totalSeconds, totalMinutes, totalHours);
+    TotalSpentTime();
     localStorage.setItem('todayAttemptsDetails', attemptsList.innerHTML);
     localStorage.setItem('TODAY', day+''+month+''+year);
 }
@@ -1489,7 +1465,6 @@ function newMonthPorgCont(){
     mthDuration.appendChild(monthHrs);
     mthDuration.appendChild(monthMins);
     mthDuration.appendChild(monthScs);
-    monthProgCont.appendChild(mthDuration);
         for (let i = 0; i < 31; i++) {
             let dayCont = document.createElement('div');
             let dayNumHeading = document.createElement('h3');
@@ -1503,7 +1478,6 @@ function newMonthPorgCont(){
         monthProgCont.appendChild(monthDaysCont);
         monthsContainer.appendChild(monthProgCont);
     }
-    TotalSpentTime(thisMthScs,thisMthMins, allMthScs,allMthMins,allMthHrs);
 }
 var thisMthScs = document.getElementsByClassName('day_scs'),
     thisMthMins = document.getElementsByClassName('day_mins'),
@@ -1575,7 +1549,7 @@ function startingFunctions(){
     if(localStorage.TODAY === day+''+month+''+year){
         if(localStorage.todayAttemptsDetails) attemptsList.innerHTML = localStorage.todayAttemptsDetails;
         else attemptsList.innerHTML = "";
-        TotalSpentTime(attemptsScs, attemptsMins, totalSeconds, totalMinutes, totalHours);
+        TotalSpentTime();
     }
     if(document.getElementById('month_' + month +'/'+year))document.getElementById('month_' + month +'/'+year).style.display = "block";
     if(months.length < 1 ){
