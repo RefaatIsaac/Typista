@@ -1,0 +1,2105 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Club Demo</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        /* ---- Base Rules ---- */
+body {
+    /* background colors: #f8e9f0; rgb(136,203,171);
+    linear-gradient(0deg, rgba(136,203,171,1) 0%, rgba(0,13,60,1) 100%); */
+    background-color: #1a2238;
+    margin: 0;
+    font-family: 'Merriweather', serif;
+}
+#menu{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0d1c43b8;
+    z-index: 1;
+    height: 28px;
+}
+
+h1 {
+    font-size: 2em;
+    padding: 1%;
+    margin: 1%;
+    color: #fff;
+    width: max-content;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 25px 0px 25px 0px;
+    text-align: center;
+}
+main{
+    padding-bottom: 5%;
+    color: #fff;
+}
+h2{
+    margin: 2px;
+    color: #fff;
+    text-align: center;
+}
+/*Styling the Typing area*/
+#typing-subcontainer{
+    text-align: center;
+    margin-left: auto;
+    background: #06194c94;
+    margin-right: auto;
+    width: 97%;
+    padding-top: 25px;
+}
+#checker{
+    /* text-align: center; */
+    /* padding: .5em; */
+    opacity: .1;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+}
+#typing-area{
+    opacity: .1;
+    box-shadow: 0px 0px 5px #081842;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.characters{
+    width: 27px;
+    border: none;
+    display: inline-block;
+    background: none;
+    text-align: center;
+    font-size: 16px;
+    /* border-radius: 0px 6px 7px 0px; */
+    margin-right: -8px;
+    color: #fff;
+}
+.spaces input{
+    width: 35px;
+}
+.spaces span{
+    display: inline-block;
+    width: 1.5em;
+}
+::placeholder{
+    opacity: 1;
+    color: #fff;
+}
+.right{
+    /* border-right: 6.6px dashed #0e2047; */
+    background: #89e689;
+    border-radius: 5px;
+    color: #000;
+}
+.wrong{
+    background: #f57f74;
+    border-radius: 5px;
+    color: #000;
+}
+.words{
+    display: inline-block;
+}
+
+.retyped-right{
+    /* border-right: 6.6px dashed #f8e9f0; */
+    background: rgb(125 148 124 / 98%);
+    border-radius: 5px;
+}
+#typing-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+/******/
+/*strating button styling and animation*/
+#start-timer-bt{
+    position: absolute;
+    z-index: 5;
+    background: #081842be;
+    font-size: 1.25em;
+    border: none;
+    color: #fff;
+    padding: 1%;
+    cursor: pointer;
+    font-weight: 900;
+    box-shadow: 0px 2px 4px black;
+    animation: starterbt 2s ease-in-out  infinite alternate;
+}
+@keyframes starterbt {
+    from{transform: translateY(-5px)}
+    to{transform: translateY(5px);}
+}
+#start-timer-bt:hover, #next:hover{
+    background-color: #081842 ;
+}
+/*****/
+#next, #try_again{
+    display: none;
+    background: #0075ff;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 900;
+    box-shadow: 0px 0px 3px black;
+    margin: 2em;
+    border-radius: 12%;
+    padding: .5em;
+}
+/*progress bar*/
+#prog-container{
+    width: 75%;
+    height: 15px;
+    background-color: #4169e1;
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+}
+#right-prog{
+    width: 0%;
+    height: 110%;
+    background-color: #8dd98b;
+    display: inline-block;
+    border-radius: 30px 0px 0px 30px;
+}
+#right-percentage, #wrong-percentage, #retyped-percentage{
+    position: relative;
+    float: right;
+    /* margin: 1%; */
+    color: #4169e1;
+    font-weight: 900;
+    max-width: max-content;
+    height: 75%;
+    overflow: hidden;
+    font-size: 0.8em;
+    padding: 0px;
+
+}
+#prog-container{
+  border-radius: 30px;
+}
+#wrong-prog{
+    border-radius: 0px 30px 30px 0px;
+    width: 0%;
+    background-color: #f57f74;
+    height: 110%;
+}
+#retyped-prog{
+    background-color: #d3fed1;
+    width: 0%;
+    height: 110%;
+}
+/******/
+/*Today's Attempts */
+
+#attempts-container{
+    width: 15em;
+    padding: 0.6%;
+    text-align:center;
+    font-weight: 600;
+    background: #0531c129;
+    height: 26em;
+}
+.attempts{
+    border-radius: 5px;
+    padding: .5em;
+    background: #4169e1;
+    overflow: hidden;
+    height: 1em;
+    width: 1em;
+}
+#attempts-container ol{
+    display:grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 5px;
+}
+.show_details{
+    position: absolute;
+    width: 11em;
+    height: 7em;
+    background: #000e3c;
+}
+.attempt_det_cont{
+display: none;
+position: absolute;
+background: #000e3c;
+padding: 5px;
+border-radius: 5px;
+margin-top: -83px;
+margin-left: -50px;
+}
+.attempt_det_cont span{
+    display:block;
+    font-size: smaller
+}
+.attempt_det_cont::after{
+       content: ' ';
+       display: inline-block;
+       /* margin-top: 20px; */
+       margin-bottom: -10px;
+       width: 0;
+       margin-right: -15px;
+       border-top: solid 10px #000e3c;
+       border-left: solid 10px transparent;
+       border-right: solid 10px transparent;
+}
+.attempts:hover .attempt_det_cont{
+    display:block;
+}
+/*Dashboard*/
+#dash-board div{
+    margin-bottom: 1%;
+    border-top: 5px solid #000e3c;
+    border-bottom: 5px solid #000e3c;
+    border-radius: 8px;
+    background: #162c4e;
+    color: #fff;
+    font-weight: 900;
+}
+#stats{
+    width: 20em;
+    margin-right: auto;
+    margin-left:auto;
+    padding: 1em;
+    border-top: 10px solid #000e3c;
+    border-bottom: 10px solid #000e3c;
+    border-radius: 10px;
+    margin-top: 2em;
+    margin-bottom: 10em;
+}
+button, select{
+    cursor: pointer;
+    background: #4169e1ba;
+    margin: 1%;
+    border: none;
+    color: #fff;
+    /* padding: 5px; */
+    cursor: pointer;
+    font-weight: 900;
+}
+#dash-board{
+    display:grid;
+    grid-template-columns: 50% 50%;
+    grid-gap: 1%;
+}
+
+#dash-board div span{
+    padding: 5px;
+    display: block;
+}
+#new-score{
+    color: #ffc903;
+    display: none;
+    font-size: 1.5em;
+}
+.char_perce{
+    display: block;
+    /* background-color: #4169e1; */
+    height: 70px;
+    transform: rotate(-90deg);
+    width: 50px;
+    z-index: -1;
+    position: absolute;
+}
+.char_perce::after{
+    content:"";
+    background: #c8d0e7;
+    /* width: 11px; */
+    height: 12px;
+    display:block;
+    position: absolute;
+    margin-top: 33px;
+    margin-left: 58px;
+    border-radius: 0 10px 10px 0;
+}
+.char_perce_cont{
+    background-color: darkgray;
+    height: 10px;
+    width: 70%;
+    display: inline-block;
+    border-radius: 10px;
+}
+#other-info{
+    display: flex;
+    margin-top: 5%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1%;
+}
+#chars-stats ul{
+   list-style-type:none;
+   display: grid;
+   grid-template-columns: repeat(5,1fr);
+   grid-column-gap: 1em;
+   color: #fbff02;
+   font-weight: 900;
+   margin-left: -1.5em;
+}
+#chars-stats li{height: 59px;display: flex;flex-direction: column;justify-content: center;align-items: center;}
+#chars-cont{
+   width: 20em;
+   background-color: #0531c129;
+   padding: 6px;
+}
+.char_percentage{
+
+    font-size: 0.8em;
+    display:none;
+   
+}
+#chars-stats li:hover .char_percentage{
+    display:inline-block;
+}
+.no-new, #invalid-input{
+    color:red;
+}
+/*popup paused notification styling */
+#paused-notifi{
+    background-color: #4169e1;
+    width: fit-content;
+    border-radius: 6px;
+    padding: 3px;
+    position: absolute;
+    /* top: -40px; */
+    display: inline-block;
+    margin-top: -30px;
+    opacity: .9;
+    font-weight: 900;
+}
+#paused-notifi::before{
+    content: ' ';
+    display: inline-block;
+    /* margin-top: 20px; */
+    margin-bottom: -16px;
+    width: 0;
+    margin-right: -15px;
+    border-top: solid 10px #4169e1;
+    border-left: solid 10px transparent;
+    border-right: solid 10px transparent;
+}
+#capslock-status{
+    color: #fff;
+    display: none;
+    background: red;
+    border-radius: 2px;
+    padding: 5px;
+    font-weight: 900;
+    margin-bottom: 12px;
+}
+#user-text-container{
+    /* width: 25%; */
+    margin: 2em;
+    text-align: center;
+}
+#checker-subcont{
+    display: flex;
+    gap: 2em;
+}
+#user-text-subcontainer{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    box-shadow: 1px 0px 5px #000;
+    padding: 2em;
+}
+#user-text-subcontainer textarea{
+    background: #3f4e65a6;
+    color: #fff;
+    padding: 10px;
+    text-align:justify;
+    border: none;
+    border-radius: 10px;
+    margin: 1em;
+    max-width: 85%;
+}
+.close-ic{
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 0px 10px 0px 10px;
+    position: relative;
+    float: right;
+    margin: -25px;
+    display: block;
+    cursor: pointer;
+    background: #e26161;
+}
+#total_time{
+    background: royalblue;
+    /* border: 1px solid; */
+    padding: 1px;
+    text-align: center;
+    /* color: #000; */
+    font-weight: 900;
+    /* width: 188px; */
+}
+#all_months_container{
+    height: max-content;
+    width: 400px;
+}
+.month_container{
+    padding: 10px;
+    display:none;
+}
+#next_month, #prev_month{
+    background-color: #006af5;
+    font-size: 20px;
+    color: #fff;
+    font-weight: 900;
+    border: none;
+    border-radius: 4px;
+}
+button:disabled{
+    opacity: .2;
+}
+.month_days_cont{
+    display:grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 9px;
+    align-content: start;
+}
+#daily_prog_container{
+    /* box-shadow: 0px 0px 3px black; */
+    padding: 15px;
+    height: 25em;
+    border-radius: 4px;
+    background: #0531c129;
+}
+.month_container .today_prog_cont{
+    background: rgb(0 14 60);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 3px #1b2e3a;
+}
+.month_container .today_prog_cont h3{
+    margin:auto;
+    padding:0px;
+    text-align:center
+}
+.day_prog{
+    position: absolute;
+    display: none;
+    background-color: #4169e1;
+    color:#fff;
+    margin-top: -74px;
+    border-radius: 7px;
+    padding: 10px;
+    margin-left: -11px;
+    opacity: 1;
+}
+.today_prog_innercont{
+    height: 0;
+    width: 0;
+    margin: 0;
+    padding: 0;
+}
+.month_container .day_prog{
+    position: absolute;
+    display:none;
+    background-color: #072379;
+    color:#fff;
+    border-radius: 7px;
+    padding: 10px;
+    box-shadow: 0px 0px 3px 2px #000e3c;
+}
+.today_accur::before{
+    content: ' ';
+    display: inline-block;
+    margin-top: 29px;
+    /* margin-bottom: -25px; */
+    width: 0;
+    margin-right: -20px;
+    border-top: solid 10px #072379;
+    border-left: solid 10px transparent;
+    border-right: solid 10px transparent;
+    flex-direction: column;
+    margin-left: 39px;
+    position: absolute;
+}
+.today_attmpts::before{
+    content: ' ';
+    display: inline-block;
+    margin-top: -20px;
+    margin-left: 22px;
+    width: 0;
+    margin-right: -13px;
+    border-bottom: solid 10px #072379;
+    border-left: solid 10px transparent;
+    border-right: solid 10px transparent;
+    position: absolute;
+}
+.today_speed::after{
+    content: ' ';
+    display: inline-block;
+    margin-top: -1px;
+    margin-left: 10px;
+    width: 0;
+    /* margin-right: -13px; */
+    border-left: solid 10px #072379;
+    border-top: solid 10px transparent;
+    border-bottom: solid 10px transparent;
+    position: absolute;
+}
+.today_time::before{
+    content: ' ';
+    display: inline-block;
+    /* margin-top: 13px; */
+    /* margin-bottom: -25px; */
+    width: 0;
+    margin-right: -13px;
+    border-right: solid 10px #072379;
+    border-top: solid 10px transparent;
+    border-bottom: solid 10px transparent;
+    position: absolute;
+    margin-left: -20px;
+}
+.today_accur{
+    margin-top: -74px;
+    margin-left: -50px;
+}
+.today_speed{
+    margin-left: -125px;
+    margin-top: -30px;
+}
+.today_time{
+    margin-left: 34px;
+    margin-top: -30px;
+}
+.today_attmpts{
+    margin-top: 14px;
+    margin-left: -34px;
+}
+
+.month_container .today_prog_cont:hover .day_prog{
+    display:inline-block;
+}
+.day_prog i{
+    padding: 5px;
+    border-right: 3px dashed;
+    border-left: 3px dashed;
+}
+/*background animation*/
+#back_animi_cont{
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: -5;
+    top: 0;
+    left: 0;
+}
+#back_animi_cont span{
+    display: inline-block;
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    transform: rotate(45deg);
+    z-index: -5;
+    box-shadow: 0px 0px 5px 0px #f1e9c1d4;
+}
+    /*stars animation*/
+.stars_group1{background-color: #fff;}
+.animi_controler .stars_group1{animation: strs1 1s ease-in-out .5s infinite alternate both;}
+@keyframes strs1{
+    from{opacity:.5}
+    to{opacity:1}
+}
+.stars_group2{background-color: #fff;}
+.animi_controler .stars_group2{animation: strs2 1s ease-in-out infinite alternate forwards;}
+@keyframes strs2{
+    from{opacity:.3}
+    to{opacity:1}
+}
+.stars_group3{background-color: #e7ef77b0;}
+.animi_controler .stars_group3{animation: strs3 1.2s ease-in-out infinite alternate backwards;}
+@keyframes strs3{
+    from{opacity:0}
+    to{opacity:1}
+}
+.stars_group4{background-color: #e7ef77b0;}
+.animi_controler .stars_group4{animation: strs4 1.5s ease-in-out infinite alternate;}
+@keyframes strs4{
+    from{opacity:0}
+    to{opacity:1}
+}
+.animi_controler .stars_group6{animation: strs6 2s ease-in-out 1s infinite alternate forwards;}
+.stars_group6{background-color: #fff}
+
+@keyframes strs6{
+    from{opacity:.0}
+    to{opacity:1}
+}
+    /*Moon animation */
+#moon_cont{
+    position: fixed;
+    width: 20em;
+    height: 20em;
+    z-index: -5;
+    animation: moon 100s linear infinite;
+    top: 30%;
+}
+#moon{
+    background-color: #f6edbd;
+    width: 66%;
+    height: 60%;
+    border-radius: 50%;
+    box-shadow: 0 0 40px 10px #f6edbd, 0 0 15px 15px #ece1a8 inset;
+}
+@keyframes moon{
+    from{transform: translateX(-100%)}
+    to{transform: translateX(400%);}
+}
+.spots{
+    background-color: #ede2a9;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    box-shadow: 0px 0px 5px 2px #f6edbd inset;
+}
+#spot1{
+    left: 122px;
+    top: 20px;
+    /* border-radius: 73px 20px 59px 74px; */
+    width: 38px;
+    height: 34px;
+    border-radius: 50%;
+}
+#spot2{
+    left: 90px;
+    top: 32px;
+    /* border-radius: 0px 10px 3px 50px; */
+    width: 43px;
+    height: 48px;
+    border-radius: 50%;
+}
+#spot3{
+    left: 32px;
+    top: 68px;
+    /* border-radius: 28px 39px 3px 68px; */
+    width: 80px;
+    height: 61px;
+    border-radius: 50%;
+}
+/*********/
+/*Keyboard*/
+#keyboard{
+    border: 2px solid #000;
+    width: 752px;
+    height: max-content;
+    padding: 10px;
+    background: #0d1c4373;
+    margin-left: auto;
+    margin-right: auto;
+}
+.rows{
+    margin-top: 2px;
+margin-bottom: 2px;
+display: flex;
+align-items: flex-end;
+gap: 3px;
+}
+#keyboard span{
+    background-color: #00000094;
+    color: #fff;
+    font-weight: 900;
+    display: inline-block;
+    text-align: center;
+    padding: 5px;
+    height: 30px;
+}
+.keyboard_key{
+    width: 50px;
+    height: 50px;
+}
+#keyboard #Tab {
+    width: 69px;
+    text-align: left;
+}
+
+#keyboard #CapsLock {
+    width: 86px;
+    text-align: left;
+}
+
+#keyboard #Enter {
+    width: 96px;
+}
+
+#keyboard #ShiftLeft {
+    width: 114px;
+    text-align: left;
+}
+
+#keyboard #ShiftRight {
+    width: 68px;
+}
+
+#keyboard #Space{
+    width: 326px;
+}
+
+#keys_row5 span {
+    padding: 10px 10px 0;
+}
+
+span#ControlRight {
+    width: 81px;
+}
+span#ControlLeft{
+    width: 60px;
+    text-align: left;
+}
+#keyboard sup{
+    margin-top: 4px;
+    margin-left: 8px;
+    display: inline-block;
+}
+/************/
+/*Hands*/
+#hands{
+    display: flex;
+    padding: 50px;
+    transform: translate(-10px, -222px);
+    width: 672px;
+    height: 131px;
+    position: absolute;
+    overflow: hidden;
+}
+.fingers{
+    width: 50px;
+    background: #d4b44261;
+    border-radius: 13px;
+    position: absolute;
+    min-height: 250px;
+}
+#right_hand{
+    display:flex;
+    margin-left: 122px;
+}
+#left_hand{
+    display:flex;
+    gap: 9px;
+}
+#left_hand .little_finger {
+    height: 135px;
+    transform: translate(42px, 61px);
+}
+
+#left_hand .ring_finger {
+    height: 138px;
+    transform: translate(95px, 52px);
+}
+#left_hand .thumb {
+    height: 56px;
+    transform: translate(247px, 137px);
+}
+
+#left_hand .index_finger {
+    height: 133px;
+    transform: translate(201px, 59px);
+}
+
+#left_hand .middle_finger {
+    height: 144px;
+    transform: translate(149px, 47px);
+}
+
+#right_hand .thumb {
+    transform: translate(193px, 137px);
+    height: 59px;
+}
+
+#right_hand .index_finger {
+    height: 136px;
+    transform: translate(239px, 59px);
+}
+
+#right_hand .middle_finger {
+    height: 149px;
+    transform: translate(291px, 47px);
+}
+
+#right_hand .ring_finger {
+    height: 142px;
+    transform: translate(344px, 54px);
+}
+
+#right_hand .little_finger {
+    height: 132px;
+    transform: translate(398px, 65px);
+}
+#typing-div{
+    max-height: 10em;
+    overflow: hidden;
+    padding:5px;
+}
+.new-line{
+    display: block;
+}
+.newLineSymbol{
+    font-size: 1.5em;
+    margin-left: -15px;
+}
+.active_char{
+    border-bottom: 4px solid yellow;
+    border-radius: 0 0 5px 5px;
+}
+    </style>
+</head>
+<body>
+    <div id="moon_cont">
+        <div id="moon">
+            <span class="spots" id="spot1"></span>
+            <span class="spots" id="spot2"></span>
+            <span class="spots" id="spot3"></span>
+        </div>
+    </div>
+    <main>
+        <h1>Typista</h1>
+        <h2>Start typing and measure your speed</h2>
+        <div id="menu">
+            <button id="start_tutorial" onclick="tutorialShow()">See a tutrial show</button>
+            <button id="end_tutorial" onclick="endTutorial()" style="display: none;">Stop tutorial</button>
+            <button onclick="startUserAttemp()" id="add_text">Add your text</button></li>
+            <select onchange="selectLevel()" name="levels" id="levels_selector">
+                <option value="beginner">Beginner</option>
+                <option value="advanced">advanced</option>
+            </select>
+            <button onclick="progressViewer()">Progress</button>
+        </div>
+        
+        <section id="user-text-container">
+            <div id='user-text-subcontainer' style="display: none;">
+                <span class="close-ic" onclick="this.parentElement.style.display = 'none'">x</span>
+                <p>Here you can a add your text to practice typing on it.
+                    <br>Feel free to insert what you want but make sure that your text ends with a <mark style="background: #31425c;padding: 3px;border-radius: 5px;color: #fff;font-weight: 900">period (.)</mark>.</p>
+                <textarea  id="user-text" cols="30" rows="10"></textarea>
+                <button onclick="userTextMaker()">Start typing</button>
+                <b id="invalid-input"  style="display:none;">The input text must ends with a period (.) not anything else.</b>
+            </div>
+        </section>
+        <section id="typing-container">
+            <section id="typing-subcontainer" >
+                <section id='typing-area'>
+                    <section id="checker">
+                        <div id="prog-container">
+                            <span  id="right-prog"> <span id="right-percentage"></span></span>
+                            <span id="retyped-prog"> <span id="retyped-percentage"></span></span>
+                            <span id="wrong-prog"> <span id="wrong-percentage"></span></span>
+                        </div>
+                        <div id="checker-subcont">
+                            <div>
+                                <span id="typing-speed" style="color: #0075ff;font-size: 2em;">0</span>
+                                <sup><abbr title="Word per Minute"> w/m</abbr></sup>
+                            </div>
+                            <div style="color: #0075ff;font-size: 1.5em;" id="time-container">
+                                <span id="timer-min">0</span>:<span id="timer-sc">0</span>
+                            </div> 
+                        </div>
+                    </section>
+                    <span id='capslock-status'>Caps lock is on</span>
+                </section>
+            </section>
+            <span id="start-timer-bt" onclick="startTyping(event)">Start typing</span>
+            <button  id="next" onclick="goToNext()">Next </button>
+            <button id="try_again" onclick="tryAgain()">&#8635;</button>
+        </section>
+        <section>
+            <div id="keyboard">
+                <div id="keys_row1" class="rows">
+                    <span class="keyboard_key" id="Backquote">` <sup>~</sup></span>
+                    <span class="keyboard_key" id="Digit1">1 <sup>!</sup></span>
+                    <span class="keyboard_key" id="Digit2">2 <sup>@</sup></span>
+                    <span class="keyboard_key" id="Digit3">3 <sup>#</sup></span>
+                    <span class="keyboard_key" id="Digit4">4 <sup>$</sup></span>
+                    <span class="keyboard_key" id="Digit5">5 <sup>%</sup></span>
+                    <span class="keyboard_key" id="Digit6">6 <sup>^</sup></span>
+                    <span class="keyboard_key" id="Digit7">7 <sup>&</sup></span>
+                    <span class="keyboard_key" id="Digit8">8 <sup>*</sup></span>
+                    <span class="keyboard_key" id="Digit9">9 <sup>(</sup></span>
+                    <span class="keyboard_key" id="Digit0">0 <sup>)</sup></span>
+                    <span class="keyboard_key" id="Minus">- <sup>_</sup></span>
+                    <span class="keyboard_key" id="Equal">= <sup>+</sup></span>
+                    <span class="controlers" id="Backspace">backspace</span>
+                </div>
+                <div id="keys_row2" class="rows">
+                    <span class="controlers" id="Tab">Tab</span>
+                    <span class="keyboard_key" id="KeyQ">Q</span>
+                    <span class="keyboard_key" id="KeyW">W</span>
+                    <span class="keyboard_key" id="KeyE">E</span>
+                    <span class="keyboard_key" id="KeyR">R</span>
+                    <span class="keyboard_key" id="KeyT">T</span>
+                    <span class="keyboard_key" id="KeyY">Y</span>
+                    <span class="keyboard_key" id="KeyU">U</span>
+                    <span class="keyboard_key" id="KeyI">I</span>
+                    <span class="keyboard_key" id="KeyO">O</span>
+                    <span class="keyboard_key" id="KeyP">P</span>
+                    <span class="keyboard_key" id="BracketLeft">[ <sup>{</sup></span>
+                    <span class="keyboard_key" id="BracketRight">] <sup>}</sup></span>
+                    <span class="keyboard_key" id="Backslash">\ <sup>|</sup></span>
+                </div>
+                <div id="keys_row3" class="rows">
+                    <span class="controlers" id="CapsLock">Capslock</span>
+                    <span class="keyboard_key" id="KeyA">A</span>
+                    <span class="keyboard_key" id="KeyS">S</span>
+                    <span class="keyboard_key" id="KeyD">D</span>
+                    <span class="keyboard_key" id="KeyF">F</span>
+                    <span class="keyboard_key" id="KeyG">G</span>
+                    <span class="keyboard_key" id="KeyH">H</span>
+                    <span class="keyboard_key" id="KeyJ">J</span>
+                    <span class="keyboard_key" id="KeyK">K</span>
+                    <span class="keyboard_key" id="KeyL">L</span>
+                    <span class="keyboard_key" id="Semicolon">; <sup>:</sup></span>
+                    <span class="keyboard_key" id="Quote">' <sup>"</sup></span>
+                    <span class="controlers" id="Enter">Enter</span>
+                </div>
+                <div id="keys_row4" class="rows">
+                    <span class="controlers" id="ShiftLeft">Shift</span>
+                    <span class="keyboard_key" id="KeyZ">Z</span>
+                    <span class="keyboard_key" id="KeyX">X</span>
+                    <span class="keyboard_key" id="KeyC">C</span>
+                    <span class="keyboard_key" id="KeyV">V</span>
+                    <span class="keyboard_key" id="KeyB">B</span>
+                    <span class="keyboard_key" id="KeyN">N</span>
+                    <span class="keyboard_key" id="KeyM">M</span>
+                    <span class="keyboard_key" id="Comma">, <sup><</sup></span>
+                    <span class="keyboard_key" id="Period">. <sup>></sup></span>
+                    <span class="keyboard_key" id="Slash">/ <sup>?</sup></span>
+                    <span class="controlers" id="ShiftRight">Shift</span>
+                    <span class="keyboard_key" id="ArrowUp">&UpArrow;</span>
+                </div>
+                <div id="keys_row5" class="rows">
+                    <span class="controlers" id="ControlLeft">Ctrl</span>
+                    <span class="keyboard_key">Fn</span>
+                    <span class="controlers" id="MetaLeft">&#8862;</span>
+                    <span class="controlers" id="AltLeft">Alt</span>
+                    <span class="controlers" id="Space">  </span>
+                    <span class="controlers" id="AltRight">Alt</span>
+                    <span class="controlers" id="ContextMenu">[&#9776;]</span>
+                    <span class="controlers" id="ControlRight">Ctrl</span>
+                    <span class="keyes" id="ArrowLeft">&LeftArrow;</span>
+                    <span class="keyboard_key" id="ArrowDown">&DownArrow;</span>
+                </div>
+            <div id="hands">
+                <div id="left_hand">
+                    <div id="left_little" class="fingers little_finger"></div>
+                    <div id="left_ring" class="fingers ring_finger"></div>
+                    <div id="left_middle" class="fingers middle_finger"></div>
+                    <div id="left_index" class="fingers index_finger"></div>
+                    <div id="left_thumb" class="fingers thumb"></div>
+                </div>
+                <div id="right_hand">    
+                    <div id="right_thumb" class="fingers thumb"></div>
+                    <div id="right_index" class="fingers index_finger"></div>
+                    <div id="right_middle" class="fingers middle_finger"></div>
+                    <div id="right_ring" class="fingers ring_finger"></div>
+                    <div id="right_little" class="fingers little_finger"></div>
+                </div>
+            </div>
+          </div>
+        </section>
+        <section id="stats">
+            <h2>Score</h2>
+            <div id="dash-board">
+                <div>
+                    <span>Speed: <em id="dash_speed" style="color: yellow;">0</em></span>
+                </div>
+                <div>
+                    <span>Accuracy: <em id="dash_accuracy" style="color: yellow;">0%</em></span>
+                </div>
+            </div>
+        </section>
+        <section id="other-info" style="display: none;">
+            <div id="attempts-container">
+                <h2>Today's attempts</h2>
+                <small id='today_date'><small></small></small>
+                <div id="total_time"><span> Duration: <span id="total_hours">00</span>:<span id="total_min">00</span>:<span id="total_sec">00</span></span></div>
+                <ol id="attempts"></ol>
+            </div>
+            <div id="daily_prog_container">
+                <h2>Daily progress</h2>
+                <div id="all_months_container">
+                </div>
+                <button id="prev_month" onclick="goPreviousMonth()">&#8617;</button>
+                <button id='next_month' onclick="goNextMonth()" disabled="true">&#8618;</button>
+            </div>
+            <di id="chars-cont">
+                <h2>Accuracy per character</h2>
+                <div id="chars-stats"></div>
+            </di>
+            <!-- <div id="progress_char">
+                <div id="vertical_axe"><b>100</b> <b>90</b> <b>80</b> <b>70</b> <b>60</b> <b>50</b> <b>40</b> <b>30</b> <b>20</b> <b>10</b></div>
+                <svg>
+                    <polyline points="50 20, 50 350, 380 350"/>
+                </svg>
+            </div> -->       
+        </section>
+    </main>
+    <script>
+        function progressViewer(){
+    document.getElementById('other-info').style.display='flex';
+    document.getElementById('other-info').scrollIntoView();
+}
+function configTimer(){
+     seconds = Math.floor((Date.now() - startingPoint)/1000);
+    if(seconds < 10 ) timerSeconds.innerText = "0"+seconds;
+    else timerSeconds.innerText = seconds;
+    if(seconds === 59){
+        startingPoint = Date.now();
+        minutes.textContent = parseInt(minutes.textContent) + 1;
+        timerSeconds.innerText = seconds;
+    }
+}
+function startTyping(event){
+    let firstChar = typingArea.querySelector('.characters');
+    startingPoint = Date.now();
+    setCounter = setInterval(configTimer, 1000);
+    event.target.style.display = "none";
+    typingArea.style.opacity = "1";
+    document.getElementById('checker').style.opacity = '1';
+    firstChar.removeAttribute('disabled');
+    firstChar.focus();
+    firstChar.classList.add('active_char')
+    document.getElementById('moon_cont').style.animationPlayState="paused";
+    document.getElementById('back_animi_cont').removeAttribute('class');
+    if(isNaN(allCharacters[0].placeholder)) key_name = 'Key' + allCharacters[0].placeholder.toUpperCase();
+    else key_name = 'Digit' + allCharacters[0].placeholder;
+    shiftKey = firstChar.classList.contains('shift')? true: false;
+    rightHandFingers();
+    leftHandFingers();
+    document.getElementById('typing-container').scrollIntoView();
+}
+ function typingAreaMaker(){
+    let typingDiv = document.createElement('div');
+    typingDiv.setAttribute('id', 'typing-div');
+    for(let i = 0; i < textToType.length; i++){
+        // Creating span for each word
+        let word = document.createElement('span');
+
+        if(textToType[i][0] === '\n'){word.setAttribute('class', 'new-line')}
+        else{
+        if(textToType[i][0] === " ")word.setAttribute('class', 'spaces')
+        else word.setAttribute('class','words')}
+    
+        let chars = textToType[i];
+        // Creating an input field for each character and appending it to the word
+        for(let x = 0; x < chars.length; x++){
+            let charField = document.createElement('input');
+            charField.setAttribute('placeholder', chars[x]);
+            charField.setAttribute('maxlength','1');
+            charField.setAttribute('disabled', 'true');
+            if(chars[x].toLowerCase() in allCharactersObj){
+                charField.classList.add('Key' + chars[x].toUpperCase());
+                if(chars[x].toUpperCase() === chars[x]) charField.classList.add('shift');
+                charField.classList.add(chars[x].toLowerCase());
+            }
+            else{
+                if(chars[x] in symbols){
+                    charField.classList.add(symbols[`${chars[x]}`][0]);
+                    if(symbols[`${chars[x]}`].includes('shift')){
+                        charField.classList.add('shift');
+                    }
+                }
+                if(chars[x] !== " " && isFinite(chars[x]) ) charField.classList.add('Digit'+chars[x]);
+                if(chars[x] === " ") charField.classList.add('Space');
+                if(chars[x] === "\n") charField.classList.add('Enter');
+            }
+            charField.classList.add('characters');
+        /**
+         * adding functionality for each character
+         */
+        charField.addEventListener('keyup', typingChecker);
+        charField.addEventListener('keydown', keyDownFunc);
+        word.appendChild(charField);
+    }
+    typingDiv.appendChild(word);
+    }
+    typingArea.appendChild(typingDiv);
+    for(let i = 0; i < allCharacters.length;i++){
+        allCharacters[i].setAttribute('id', i);
+    }
+    for (let i = 0; i < document.getElementsByClassName('enter').length; i++) {
+        document.getElementsByClassName('enter')[i].insertAdjacentHTML('afterend', '<b class="newLineSymbol">&#8626;</b>'); 
+   }
+}
+
+function selectLevel(){
+    switch(levelSelector.value){
+        case 'beginner':
+            textToType = textMaker(beginner[index]);
+       break;
+       case 'advanced':
+           textToType = textMaker(advanced[index]);
+       break;
+    }
+       localStorage.setItem('currentLevel',levelSelector.value);
+       clearingTypingArea();
+       typingAreaMaker();
+}
+function tryAgain(){
+    clearingTypingArea();
+    typingAreaMaker();
+    starterBt.click();
+}
+ function textMaker(txt) {
+     let modifiedtxt = txt.replace(/ /g, "+ +");
+     let wordsArr = modifiedtxt.split('+');
+     let textArray = [];
+     for (let i = 0; i < wordsArr.length; i++) {
+         textArray.push(wordsArr[i].split(''));
+     }
+     return textArray;
+ }
+function userTextMaker(){
+    if((userText.value.lastIndexOf('.') === userText.value.length-1)){
+        textToType = textMaker(userText.value);
+        clearingTypingArea();
+        typingAreaMaker();
+        typingArea.scrollIntoView();
+        starterBt.click();
+    }else{
+        document.getElementById('invalid-input').style.display="inline-block";
+    }
+}
+function startUserAttemp(){
+    document.getElementById('user-text-subcontainer').style.display='block';
+    document.getElementById('user-text-subcontainer').scrollIntoView();
+    userText.focus();
+}
+function typingChecker(event){
+    typingWatching();
+
+    let currentChar = parseInt(this.id);
+    let nextChar = document.getElementById(currentChar +1);
+    if(event.which !== 16 && event.which !== 20 && event.which !== 8){
+        handlingKeyboard(event);
+
+        if(this.placeholder === '\n'){
+            if(event.which === 13){
+                if(this.classList.contains('backspace-pressed')) this.classList.add('retyped-right');
+                else this.classList.add('right');
+            }else this.classList.add('wrong');
+        }else{
+            if(this.value === this.placeholder){
+                if(this.classList.contains('backspace-pressed')) this.classList.add('retyped-right')
+                else{
+                    this.classList.add('right');
+                    if(this.placeholder !== " ") this.classList.add('right-'+this.placeholder.toLowerCase());
+                }
+            }else{
+                this.classList.add('wrong');
+                this.value = "";
+            }
+        }
+        this.setAttribute('disabled','true');
+        this.classList.remove('active_char');
+
+        if(currentChar != allCharacters.length-1){
+            nextChar.removeAttribute('disabled');
+            nextChar.classList.add('active_char');
+            nextChar.focus();
+        }else{
+            this.classList.remove('active_char');
+            typingWatching();
+            clearInterval(setCounter);
+            dashboardScores();
+            charsAccurCalc();
+            dailyProgress();
+            todayAttempts();
+            document.getElementById('moon_cont').style.animationPlayState = 'initial';
+            document.getElementById('back_animi_cont').setAttribute('class','animi_controler');
+            for (let i = 0; i < document.getElementsByClassName('fingers').length; i++) {
+                const element = document.getElementsByClassName('fingers')[i];
+                element.removeAttribute('style');  
+            }
+               if(rightTypedPercentage.innerText.split(' ')[0] < 50 || parseInt(typingSpeed.innerText) < 15){
+                   document.getElementById('try_again').style.display = "block";
+                   document.getElementById('next').style.display = "none";
+               }else{
+                   document.getElementById('next').style.display = "block";
+                   if(!goToNext()) index = 0;
+                    document.getElementById('try_again').style.display = "none";
+               }
+        }
+    }
+    let sp = document.createElement('span');
+    sp.innerText='capslock is on';
+    if(event.getModifierState("CapsLock")){
+        document.getElementById('capslock-status').style.display='inline';
+    }else{
+        document.getElementById('capslock-status').style.display='none';
+    }
+    if(event.keyCode === 9 || event.code === "ContextMenu") event.preventDefault();
+}
+function keyDownFunc(event){
+    realsingKeys(event);
+    if(event.keyCode === 8){
+        let currentChar = parseInt(this.id);
+        let previousChar = document.getElementById(currentChar - 1);
+        if(currentChar != 0){
+            previousChar.removeAttribute('disabled');
+            previousChar.focus()
+        }
+        if (previousChar) {
+            this.classList.remove('wrong');
+            this.classList.remove('right');
+            previousChar.classList.add('backspace-pressed');
+            previousChar.value = "";
+            this.setAttribute('disabled','true');
+            previousChar.classList.remove('wrong');
+            previousChar.classList.remove('right');
+            previousChar.classList.add('backspace-pressed');
+        }
+    }
+}
+// function TotalSpentTime(){
+//     let attemptsMins = document.getElementsByClassName('attmpt-min'),
+//     attemptsScs = document.getElementsByClassName('attmpt-sc');
+//     totalHours.innerText =0;
+//     totalMinutes.innerText=0;
+//     totalSeconds.innerText = 0;
+//  let allSpentMins = 0;
+//  let allSpentScs = 0;
+//    for (let i = 0; i < attemptsMins.length; i++) {
+//      allSpentMins = allSpentMins + parseInt(attemptsMins[i].innerText);
+//    }
+//    for (let i = 0; i < attemptsScs.length; i++) {
+//      allSpentScs = allSpentScs + parseInt(attemptsScs[i].innerText);
+//  }
+//      if(parseInt(totalMinutes.innerText) + allSpentMins > 59){
+//          totalMinutes.innerText = (parseInt(totalMinutes.innerText) + allSpentMins) % 60;
+//          totalHours.innerText = parseInt(totalHours.innerText) + Math.floor((parseInt(totalMinutes.innerText) + allSpentMins) / 60);
+//      }else{
+//          totalMinutes.innerText = parseInt(totalMinutes.innerText)+ allSpentMins;
+//      }
+//     if(parseInt(totalSeconds.innerText) + allSpentScs > 59){
+//         totalSeconds.innerText = (parseInt(totalSeconds.innerText) + allSpentScs) % 60;
+//         totalMinutes.innerText = parseInt(totalMinutes.innerText) + Math.floor((parseInt(totalSeconds.innerText) + allSpentScs) / 60);
+//     }else{totalSeconds.innerText = parseInt(totalSeconds.innerText) + allSpentScs}
+// }
+function TotalSpentTime(scnds, mnts, outScnds, outMnts, outHrs){
+    outHrs.innerText =0;
+    outMnts.innerText=0;
+    outScnds.innerText = 0;
+    let allSpentMins = 0;
+    let allSpentScs = 0;
+    for (let i = 0; i < scnds.length; i++) {
+        allSpentScs += parseInt(scnds[i].innerText);
+    }
+    for (let i = 0; i < mnts.length; i++) {
+        allSpentMins += parseInt(mnts[i].innerText);
+    }
+    if(parseInt(outScnds.innerText) + allSpentScs > 59){
+        outScnds.innerText = (parseInt(outScnds.innerText) + allSpentScs) % 60;
+        outMnts.innerText = parseInt(outMnts.innerText) + Math.floor((parseInt(totalSeconds.innerText) + allSpentScs) / 60);
+        }else{outScnds.innerText = parseInt(outScnds.innerText) + allSpentScs}
+    if(parseInt(outMnts.innerText) + allSpentMins > 59){
+        outMnts.innerText = (parseInt(outMnts.innerText) + allSpentMins) % 60;
+        outHrs.innerText = parseInt(outHrs.innerText) + Math.floor((parseInt(outMnts.innerText) + allSpentMins) / 60);
+    }else{
+        outMnts.innerText = parseInt(outMnts.innerText)+ allSpentMins;
+    }
+    console.log(allSpentMins +':'+allSpentScs);
+}
+function dashboardScores() {
+    let attemptsAccuracies = document.getElementsByClassName('attmpt-accuracy'),
+    attemptsSpeeds = document.getElementsByClassName('atmpt-speed');
+    // getting the biggest accuracy rate
+    let allAcc = [0];
+    for(let i = 0; i < attemptsAccuracies.length; i++){
+        allAcc.push(parseInt(attemptsAccuracies[i].innerText));
+    }
+        scoreAccuracy.innerText = Math.max(...allAcc) +"%";
+    //getting the biggest speed rate
+    let allSpeeds= [0];
+    for(let i = 0; i < attemptsSpeeds.length; i++){
+        allSpeeds.push(parseInt(attemptsSpeeds[i].innerText));
+    }
+    scoreSpeed.innerText = Math.max(...allSpeeds) +" w/m";
+    scoreAccuracy.style.color = 'yellow';
+    // saving these results in the localStorage
+    localStorage.setItem('score_speed', scoreSpeed.innerText);
+    localStorage.setItem('score_accuracy', scoreAccuracy.innerText)
+}
+function clearingTypingArea() {
+    if(typingArea.querySelector("#typing-div")) typingArea.querySelector('#typing-div').remove();
+    typingSpeed.textContent = "0";
+    starterBt.style.display = 'block';
+    timerSeconds.textContent = "0";
+    minutes.textContent = "0";
+    typingArea.style.opacity = ".1";
+    rightTypedPercentage.innerText = "";
+    wrongTypedPercentage.innerText = "";
+    retypedPercentage.innerText = "";
+    rightTypedProg.style.width = "0%";
+    wrongTypedProg.style.width = "0%";
+    retypedProg.style.width = "0%";
+}
+let notFinished = true;
+function goToNext(){
+    let currentLevel = (levelSelector.value === 'beginner') ? beginner : advanced;
+    if(index <= currentLevel.length - 2) index++;
+    else notFinished = false;
+    if(index < currentLevel.length){
+        textToType = textMaker(currentLevel[index]);
+        clearingTypingArea();
+        typingAreaMaker();
+         document.getElementById('next').style.display = "none"//hiding the next button
+        localStorage.setItem('lastStop', index);
+    }
+    return notFinished;
+}
+function  charsAccurCalc() {
+    let ul = document.createElement('ul');
+    let abc = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+
+    for(let x = 0; x < abc.length; x++){
+        if(document.getElementsByClassName(abc[x]).length > 0){
+        allCharactersObj[abc[x]].push(Math.floor((document.getElementsByClassName('right-'+abc[x]).length/document.getElementsByClassName(abc[x]).length)*100));
+        }
+    }
+    for(let i =0; i <abc.length; i++){
+        let li =  document.createElement('li');
+        if(Math.max(...allCharactersObj[abc[i]]) !== 0 ){
+        li.innerHTML = `<progress max="100" class='char_perce' value="${Math.max(...allCharactersObj[abc[i]])}"></progress><span class='char'>${abc[i]}</span><span class='char_percentage'>${Math.max(...allCharactersObj[abc[i]])}%</span>`;
+        }else{
+         li.innerHTML = `<span class='char'>${abc[i]}</span>`;
+        }
+        ul.appendChild(li);
+    }
+    charsAccurCont.innerHTML = "";
+    charsAccurCont.appendChild(ul);
+    window.localStorage.setItem('chars_accuracy', charsAccurCont.innerHTML);
+}
+function typingWatching() {
+    /**
+     * Setting the progress bar
+     */
+         let rightTypedCalc = (rightTyped.length / allCharacters.length) * 100;
+         let wrongTypedCalc = (wrongTyped.length / allCharacters.length) * 100;
+         let retypedCalc = (retyped.length / allCharacters.length) * 100;
+
+         rightTypedProg.style.width = rightTypedCalc + "%";
+         wrongTypedProg.style.width = wrongTypedCalc + "%";
+         retypedProg.style.width = retypedCalc + "%";
+         if(rightTypedCalc > "5")rightTypedPercentage.innerText = rightTypedCalc.toFixed(0) + " %";
+         if(wrongTypedCalc > "5")wrongTypedPercentage.innerText = wrongTypedCalc.toFixed(0) + " %";
+         if(retypedCalc > "5")retypedPercentage.innerText = retypedCalc.toFixed(0) + " %";
+    /**
+     * Measuring the typing speed and status
+    */
+        var duration = (parseInt(minutes.innerText) * 60) + parseInt(timerSeconds.innerText);
+       if(isFinite((((rightTyped.length / duration) * 60 ) /5).toFixed(0))) typingSpeed.textContent = (((rightTyped.length / duration) * 60 ) /5).toFixed(0);
+    }
+function  todayAttempts() {
+    if(localStorage.TODAY === day+''+month+''+year){
+        if(localStorage.todayAttemptsDetails) attemptsList.innerHTML = localStorage.todayAttemptsDetails;
+        else attemptsList.innerHTML = "";
+    }
+    let  attempt = document.createElement('li'),
+    attemptSpeed = document.createElement('span'),
+    attemptTime = document.createElement('span'),
+    attemptAccuracy = document.createElement('span');
+    attemptDetailsCont = document.createElement('div');
+    attemptDetailsCont.setAttribute('class', 'attempt_det_cont');
+    attemptNum = document.createElement('em');
+    attemptNum.innerText = document.querySelectorAll('.attempts').length + 1;
+    attempt.appendChild(attemptNum);
+    attempt.setAttribute('class','attempts');
+    attemptSpeed.innerHTML = `Speed: <strong class="atmpt-speed">${typingSpeed.innerText} w/m</strong>`;
+    attemptTime.innerHTML = `${allwords.length} words in <b class="attmpt-min"> ${minutes.innerText}</b>:<b class="attmpt-sc">${timerSeconds.innerText}</b>`;
+    attemptAccuracy.innerHTML = `Accuracy: <strong class="attmpt-accuracy">${((rightTyped.length / allCharacters.length)*100).toFixed(0)}</strong>%`;
+    attemptDetailsCont.appendChild(attemptSpeed);
+    attemptDetailsCont.appendChild(attemptAccuracy);
+    attemptDetailsCont.appendChild(attemptTime);
+    attempt.appendChild(attemptDetailsCont);
+    attemptsList.appendChild(attempt);
+    TotalSpentTime(attemptsScs, attemptsMins, totalSeconds, totalMinutes, totalHours);
+    localStorage.setItem('todayAttemptsDetails', attemptsList.innerHTML);
+    localStorage.setItem('TODAY', day+''+month+''+year);
+}
+function progressRegister(){
+/*creating span container for the day prog details*/
+    let todayAccur = document.createElement('span');
+    todayAccur.setAttribute('class','day_prog');
+    todayAccur.classList.add('today_accur');
+    let todaySpeed = document.createElement('span');
+    todaySpeed.setAttribute('class','day_prog');
+    todaySpeed.classList.add('today_speed');
+    let todayTime = document.createElement('span');
+    todayTime.setAttribute('class','day_prog');
+    todayTime.classList.add('today_time');
+    let todayAttempets = document.createElement('span');
+    todayAttempets.setAttribute('class','day_prog');
+    todayAttempets.classList.add('today_attmpts');
+/*setting the details*/
+    todayAccur.innerHTML = `Accuracy: ${scoreAccuracy.innerText}`;
+    todayAttempets.innerHTML = `Attempts: ${document.querySelectorAll('.attempts').length}`;
+    todaySpeed.innerHTML = `Speed: ${scoreSpeed.innerText}`;
+    todayTime.innerHTML = `Duration: <span class='day_hrs'>${totalHours.innerText}</span>:<span class='day_mins'>${totalMinutes.innerText}</span>:<span class='day_scs'>${totalSeconds.innerText}</span>`;
+/* creating the day prog cont and appending to it the details spans */
+    let dayProg = document.createElement('div');
+    dayProg.setAttribute('id','prog_of_' + day + '/'+month+'/'+year);
+    dayProg.setAttribute('class', 'today_prog_innercont');
+    dayProg.appendChild(todayAccur);
+    dayProg.appendChild(todaySpeed);
+    dayProg.appendChild(todayTime);
+    dayProg.appendChild(todayAttempets);
+    if(!document.getElementById('prog_of_' + day + '/'+month+'/'+year)){
+        document.getElementById('day_'+ day + '/' + month + '/' + year).appendChild(dayProg);
+    }else{
+        document.getElementById('prog_of_' + day + '/'+month+'/'+year).innerHTML = dayProg.innerHTML;
+    }
+}
+function newMonthPorgCont(){
+    if(!document.getElementById('month_' + month +'/' + year)){
+
+        let monthProgCont = document.createElement('div');
+        monthProgCont.setAttribute('id', 'month_' + month +'/' + year);
+        monthProgCont.setAttribute('class','month_container');
+
+        let monthDaysCont = document.createElement('div');
+        monthDaysCont.setAttribute('class', 'month_days_cont');
+
+        let monthName = document.createElement('h3');
+        monthName.setAttribute('class', 'month_name');
+        monthName.innerText = dt.toDateString().split(' ')[1] + ' ' + dt.toDateString().split(' ')[3];
+        monthProgCont.appendChild(monthName);
+        let mthDuration = document.createElement('div');
+        mthDuration.setAttribute('class','duratoins');
+    let monthScs = document.createElement('sapn');
+        monthScs.setAttribute('class','mth_scs');
+        monthScs.innerHTML = '00';
+    let monthMins = document.createElement('span');
+        monthMins.setAttribute('class','mth_mins');
+        monthMins.innerHTML = '00';
+    let monthHrs = document.createElement('span');
+        monthHrs.setAttribute('class','mth_hrs');
+        monthHrs.innerHTML = '00';
+    mthDuration.innerHTML = `Duration: `;
+    mthDuration.appendChild(monthHrs);
+    mthDuration.appendChild(monthMins);
+    mthDuration.appendChild(monthScs);
+    monthProgCont.appendChild(mthDuration);
+        for (let i = 0; i < 31; i++) {
+            let dayCont = document.createElement('div');
+            let dayNumHeading = document.createElement('h3');
+            dayNumHeading.innerText = i+ 1;
+            dayCont.setAttribute('class', 'day_prog');
+            dayCont.setAttribute('id', 'day_'+ (i+1) + '/' + month + '/' + year);
+            dayCont.setAttribute('class', 'today_prog_cont');
+            dayCont.appendChild(dayNumHeading);
+            monthDaysCont.appendChild(dayCont);
+        }
+        monthProgCont.appendChild(monthDaysCont);
+        monthsContainer.appendChild(monthProgCont);
+    }
+    TotalSpentTime(thisMthScs,thisMthMins, allMthScs,allMthMins,allMthHrs);
+}
+var thisMthScs = document.getElementsByClassName('day_scs'),
+    thisMthMins = document.getElementsByClassName('day_mins'),
+    thisMthHrs = document.getElementsByClassName('day_hrs'),
+    allMthScs = document.getElementsByClassName('mth_scs'),
+    allMthMins = document.getElementsByClassName('mth_mins'),
+    allMthHrs = document.getElementsByClassName('mth_hrs');
+function dailyProgress(){
+    if(!localStorage.dailyProg){
+        newMonthPorgCont();
+        progressRegister();
+    }
+    if(localStorage.MONTH === month+''+year){
+        if(localStorage.dailyProg){
+                monthsContainer.innerHTML = localStorage.dailyProg;
+                progressRegister();
+        }
+    }else{
+        newMonthPorgCont();
+        progressRegister();
+    }
+    for (let i = 0; i < monthsContainer.querySelectorAll(".today_prog_cont").length; i++) {
+        const element = monthsContainer.querySelectorAll(".today_prog_cont")[i];
+      if(element.childElementCount === 1){element.style.opacity = ".2"}
+      else{element.style.opacity = "1"}
+    }
+    localStorage.setItem('dailyProg', monthsContainer.innerHTML);
+    localStorage.setItem("MONTH", month+''+year);
+    document.getElementById('month_' + month +'/'+year).style.display = "block";
+}
+function goNextMonth(){
+    if(monthsIndx < months.length){
+        monthsIndx++;
+        if(months[monthsIndx]){
+            months[monthsIndx].style.display ="block";
+            months[monthsIndx -1].style.display = "none";
+            document.getElementById('prev_month').removeAttribute('disabled');
+        }
+    }
+    if(monthsIndx == months.length - 1)  document.getElementById('next_month').setAttribute('disabled','true');
+}
+function goPreviousMonth(){
+    if(monthsIndx > 0){
+        monthsIndx--;
+        if(months[monthsIndx]){
+            months[monthsIndx +1].style.display='none';
+            months[monthsIndx].style.display = "block";
+            document.getElementById('next_month').removeAttribute('disabled');
+            if(monthsIndx === 0) document.getElementById('prev_month').setAttribute('disabled','true');
+        }
+    }
+}
+function startingFunctions(){
+    levelSelector.value = localStorage.currentLevel;
+    if(localStorage.lastStop)  index = parseInt(localStorage.lastStop);
+    if(notFinished) selectLevel();
+    charsAccurCont.innerHTML = localStorage.chars_accuracy;
+    if(localStorage.score_accuracy) scoreAccuracy.innerText = localStorage.score_accuracy;
+    if(localStorage.score_speed) scoreSpeed.innerText = localStorage.score_speed;
+    if(localStorage.dailyProg) monthsContainer.innerHTML = localStorage.dailyProg;
+    for (let i = 0; i < monthsContainer.querySelectorAll("div").length; i++) {
+        const element = monthsContainer.querySelectorAll("div")[i];
+        if(element.childElementCount === 1){element.style.opacity = ".2"}
+        else{element.style.opacity = "1"}
+    }
+    if(localStorage.MONTH === (month+''+year)){
+        if(localStorage.dailyProg) monthsContainer.innerHTML = localStorage.dailyProg;
+    }
+    if(localStorage.TODAY === day+''+month+''+year){
+        if(localStorage.todayAttemptsDetails) attemptsList.innerHTML = localStorage.todayAttemptsDetails;
+        else attemptsList.innerHTML = "";
+        TotalSpentTime(attemptsScs, attemptsMins, totalSeconds, totalMinutes, totalHours);
+    }
+    if(document.getElementById('month_' + month +'/'+year))document.getElementById('month_' + month +'/'+year).style.display = "block";
+    if(months.length < 1 ){
+        document.getElementById('prev_month').style.display="none";
+        document.getElementById('next_month').style.display="none";
+    }
+}
+function animationMaker(){
+    let animiCont = document.createElement('div');
+    animiCont.setAttribute('id','back_animi_cont');
+    animiCont.setAttribute('class','animi_controler');
+    for (let i = 0; i < 400; i++) {
+        const str = document.createElement('span');
+        str.setAttribute('id','star_'+i);
+        animiCont.appendChild(str);
+        str.style.left = Math.floor(Math.random() * 100) +"%";
+        str.style.top = Math.floor(Math.random() * 100) +"%";  
+    }
+    document.body.insertBefore(animiCont, document.body.firstElementChild);
+    let allStars = animiCont.getElementsByTagName('span');
+    for (let index = 0; index < allStars.length; index++) {
+        let el;
+        if(index % 2 ===0){
+            el = allStars[index];
+            el.setAttribute('class','stars_group1');
+        }
+        if(index % 3 ===0){
+            el = allStars[index];
+            el.setAttribute('class','stars_group2');
+        }
+        if(index % 7 ===0){
+            el = allStars[index];
+            el.setAttribute('class','stars_group3');
+        }
+        if(index % 9 ===0){
+            el = allStars[index];
+            el.setAttribute('class','stars_group4');
+        }
+        el = allStars[index];
+        if(!el.hasAttribute('class')){
+            el.setAttribute('class','stars_group6');
+        }
+    }
+}
+/**
+ * controling the keyboard
+ */
+ var shiftKeyFunc = (key, fing)=>{
+    let keyLft = key.getBoundingClientRect().left,
+    keyTop = key.getBoundingClientRect().top;
+    if(shiftKey){
+        key.style.background = '#89e6899c';
+        fing.style.transform="translate(0px)";
+    let tpPos = keyTop - fing.getBoundingClientRect().top,
+        lftPos = keyLft - fing.getBoundingClientRect().left;
+        fing.style.transform = `translate(${lftPos}px, ${tpPos}px)`;
+        fing.style.background = '#89e6899c';
+    }
+}
+ function leftHandFingers(){
+    let keyTopPos = document.getElementById(key_name).getBoundingClientRect().top,
+        keyLeftPos = document.getElementById(key_name).getBoundingClientRect().left;
+    if(key_name === "KeyA" ||
+    key_name === "Digit1" ||
+    key_name === "KeyQ"  ||
+    key_name === "KeyZ" ||
+    key_name === "Tab" ||
+    key_name === "CapsLock" ||
+    key_name ==="ShiftLeft" ||
+    key_name === "ControlLeft" ||
+    key_name === "Backquote"){
+    leftLittleFinger.style.transform="translate(0px)";
+    shiftKeyFunc(rightShiftKey, rightLittleFinger);
+    let topPos = keyTopPos - leftLittleFinger.getBoundingClientRect().top,
+        leftPos = keyLeftPos - leftLittleFinger.getBoundingClientRect().left;
+    leftLittleFinger.style.transform = `translate(${leftPos}px, ${topPos}px)`;
+    leftLittleFinger.style.backgroundColor="#89e6899c";
+    }
+    if(key_name === "Digit2" ||
+    key_name === "KeyW" ||
+    key_name === "KeyS"  ||
+    key_name === "KeyX" ||
+    key_name === "AltLeft"){
+        shiftKeyFunc(rightShiftKey, rightLittleFinger);
+    leftRingFinger.style.transform="translate(0px)";
+    let topPos = keyTopPos - leftRingFinger.getBoundingClientRect().top,
+        leftPos = keyLeftPos - leftRingFinger.getBoundingClientRect().left;
+    leftRingFinger.style.transform = `translate(${leftPos}px, ${topPos}px)`;
+    leftRingFinger.style.backgroundColor="#89e6899c";
+    }
+    if(key_name === "Digit3" ||
+    key_name === "KeyE" ||
+    key_name === "KeyD"  ||
+    key_name === "KeyC"){
+        shiftKeyFunc(rightShiftKey, rightLittleFinger);
+    leftMiddleFinger.style.transform="translate(0px)";
+    let topPos = keyTopPos - leftMiddleFinger.getBoundingClientRect().top,
+        leftPos = keyLeftPos - leftMiddleFinger.getBoundingClientRect().left;
+    leftMiddleFinger.style.transform = `translate(${leftPos}px, ${topPos}px)`;
+    leftMiddleFinger.style.backgroundColor="#89e6899c";
+    }
+    if(key_name === "Digit4" ||
+    key_name === "Digit5" ||
+    key_name === "KeyR" ||
+    key_name === "KeyF"  ||
+    key_name === "KeyV" ||
+    key_name === "KeyT"  ||
+    key_name === "KeyG"  ||
+    key_name === "KeyB" ){
+        shiftKeyFunc(rightShiftKey, rightLittleFinger);
+        leftIndexFinger.style.transform="translate(0px)";
+        let topPos = keyTopPos - leftIndexFinger.getBoundingClientRect().top,
+            leftPos = keyLeftPos - leftIndexFinger.getBoundingClientRect().left;
+        leftIndexFinger.style.transform = `translate(${leftPos}px, ${topPos}px)`;
+        leftIndexFinger.style.backgroundColor="#89e6899c";
+        }
+}
+
+function rightHandFingers(){
+    let keyTopPos = document.getElementById(key_name).getBoundingClientRect().top,
+    keyLeftPos = document.getElementById(key_name).getBoundingClientRect().left;
+    if(key_name === "Semicolon" ||
+    key_name === "Digit0" ||
+    key_name === "Minus"  ||
+    key_name === "Equal" ||
+    key_name === "Backslash" ||
+    key_name === "BracketRight" ||
+    key_name ==="BracketLeft" ||
+    key_name === "Quote" ||
+    key_name === "Slash" ||
+    key_name === "KeyP"||
+    key_name === "ShiftRight" ||
+    key_name === "Enter"||
+    key_name === "ControlRight"||
+    key_name === "Backspace"){
+    rightLittleFinger.style.transform="translate(0px)";
+    shiftKeyFunc(leftShiftKey, leftLittleFinger);
+    let topPos = keyTopPos - rightLittleFinger.getBoundingClientRect().top,
+        leftPos = keyLeftPos - rightLittleFinger.getBoundingClientRect().left;
+       rightLittleFinger.style.transform = `translate(${leftPos}px, ${topPos}px)`;
+       rightLittleFinger.style.backgroundColor="#89e6899c";
+    }
+    
+    if(key_name === "Digit9" ||
+    key_name === "KeyO" ||
+    key_name === "KeyL"  ||
+    key_name === "Period" ||
+    key_name === "ContextMenu"){
+    rightRingFinger.style.transform="translate(0px)";
+    shiftKeyFunc(leftShiftKey, leftLittleFinger);
+    let topPos = keyTopPos - rightRingFinger.getBoundingClientRect().top,
+        leftPos = keyLeftPos - rightRingFinger.getBoundingClientRect().left;
+        rightRingFinger.style.transform = `translate(${leftPos}px, ${topPos}px)`;
+        rightRingFinger.style.backgroundColor="#89e6899c";
+    }
+    if(key_name === "Digit8" ||
+    key_name === "KeyI" ||
+    key_name === "KeyK"  ||
+    key_name === "Comma"||
+    key_name === "AltRight"){
+    rightMiddleFinger.style.transform="translate(0px)";
+    shiftKeyFunc(leftShiftKey, leftLittleFinger);
+    let topPos = keyTopPos - rightMiddleFinger.getBoundingClientRect().top,
+        leftPos = keyLeftPos - rightMiddleFinger.getBoundingClientRect().left;
+    rightMiddleFinger.style.transform = `translate(${leftPos}px, ${topPos}px)`;
+    rightMiddleFinger.style.backgroundColor = "#89e6899c";
+    }
+   if(key_name === "Digit7" ||
+   key_name === "Digit6" ||
+   key_name === "KeyU" ||
+   key_name === "KeyJ"  ||
+   key_name === "KeyH" ||
+   key_name === "KeyY"  ||
+   key_name === "KeyM"  ||
+   key_name === "KeyN" ){
+   rightIndexFinger.style.transform="translate(0px)";
+   shiftKeyFunc(leftShiftKey, leftLittleFinger);
+   let topPos = keyTopPos - rightIndexFinger.getBoundingClientRect().top,
+       leftPos = keyLeftPos - rightIndexFinger.getBoundingClientRect().left;
+   rightIndexFinger.style.transform = `translate(${leftPos}px, ${topPos}px)`;
+   rightIndexFinger.style.backgroundColor = "#89e6899c";
+   }
+}
+function handlingKeyboard(event){
+    let currentChar = parseInt(event.target.id);
+    let commingChar = document.getElementById(currentChar +1);
+    document.getElementById(event.code).removeAttribute('style');
+    rightShiftKey.removeAttribute('style');
+    leftShiftKey.removeAttribute('style');
+    if(commingChar){
+        shiftKey = commingChar.classList.contains('shift')? true: false;
+        key_name = commingChar.classList[0];
+        for (let i = 0; i < document.getElementsByClassName('fingers').length; i++){
+            const element = document.getElementsByClassName('fingers')[i];
+            element.removeAttribute('style'); 
+        }
+        document.getElementById(key_name).style.backgroundColor = "#47e24fb4";
+        if(key_name === "Space"){
+            leftThumbFinger.style.backgroundColor="#89e6899c";
+            rightThumbFinger.style.backgroundColor = "#89e6899c";
+        } 
+    leftHandFingers();
+    rightHandFingers();
+    }
+}
+
+function realsingKeys(event){
+    document.getElementById(event.target.classList[0]).removeAttribute('style');
+}
+/**
+ * Tutorial show
+ */
+function exprimentalTyping(){
+    let typingDiv = document.createElement('div');
+    typingDiv.setAttribute('id', 'typing-div');
+    for(let i = 0; i < textToType.length; i++){
+        // Creating span for each word
+        let word = document.createElement('span');
+        if(textToType[i][0] === " "){word.setAttribute('class', 'spaces')}
+        else{word.setAttribute('class','words')}
+        let chars = textToType[i];
+        // Creating an input field for each character and appending it to the word
+        for(let x = 0; x < chars.length; x++){
+            let charField = document.createElement('span');
+            charField.innerHTML = chars[x];
+            if(chars[x] !== " ") charField.setAttribute('class', "characters");
+            if(chars[x] !== "." && chars[x] !== "," && chars[x] !== " ")   charField.classList.add("Key"+chars[x].toUpperCase());
+            if(chars[x] === ",") charField.classList.add('Comma');
+            if(chars[x] === ".") charField.classList.add('Period');
+        word.appendChild(charField);
+    }
+    typingDiv.appendChild(word);
+    }
+    typingArea.appendChild(typingDiv);
+    for(let i = 0; i < allCharacters.length;i++){
+        allCharacters[i].setAttribute('id', 'char_'+i);
+    }
+
+}
+function tutorialShow(){
+    let tutorText = "You have to keep your fingers in the Home Row, putting the left index finger over the key F and the right one over the J. After pressing a key go back to the Home Row again and never ever look at the keyboard.";
+    textToType = textMaker(tutorText);
+    clearingTypingArea();
+    exprimentalTyping();
+    typingArea.scrollIntoView();
+    typingArea.style.opacity = "1";
+    document.getElementById('checker').style.opacity = '1';
+    starterBt.style.display ="none";
+    let charIndex = 0;
+    document.getElementById('next').style.display="none";
+    document.getElementById('try_again').style.display='none';
+    document.getElementById('start_tutorial').style.display='none';
+    document.getElementById('end_tutorial').style.display='inline-block';
+    document.getElementById('')
+    tutorialWriter = setInterval(()=>{
+        let expChar = document.getElementById("char_"+charIndex);
+        expChar.classList.add('right');
+        let keyChar = expChar.classList[1];
+        document.getElementById(keyChar).style.backgroundColor = "green";
+        key_name = keyChar;
+        leftHandFingers();
+        rightHandFingers();
+        setTimeout(()=>{
+            document.getElementById(keyChar).removeAttribute('style');
+            for (let i = 0; i < document.getElementsByClassName('fingers').length; i++) {
+                const element = document.getElementsByClassName('fingers')[i];
+                element.removeAttribute('style');  
+            }
+        },500);
+        charIndex++;
+        if(!document.getElementById("char_"+charIndex) || !document.getElementById(keyChar)){
+            document.getElementById('end_tutorial').click();
+            document.getElementById('end_tutorial').style.display='none';
+            document.getElementById('start_tutorial').style.display="inline-block";
+        } 
+    },1000);
+}
+function endTutorial(){
+    clearInterval(tutorialWriter);
+    clearingTypingArea();
+    typingAreaMaker();
+    document.getElementById('end_tutorial').style.display='none';
+    document.getElementById('start_tutorial').style.display="inline-block";
+}
+
+/**
+ * Global variables
+ */
+
+symbols = {
+        '!': ['Digit1','shift'],
+        '@': ['Digit2','shift'],
+        '#': ['Digit3','shift'],
+        '$': ['Digit4','shift'],
+        '%': ['Digit5','shift'],
+        '^': ['Digit6','shift'],
+        '&': ['Digit7','shift'],
+        '*': ['Digit8','shift'],
+        '(': ['Digit9','shift'],
+        ')': ['Digit0','shift'],
+        '_': ['Minus','shift'],
+        '-': ['Minus'],
+        '+': ['Equal','shift'],
+        '=': ['Equal'],
+        '~': ['Backquote','shift'],
+        '`': ['Backquote'],
+        '[': ['BracktLeft'],
+        '{': ['BracketLeft','shift'],
+        ']': ['BracketRight'],
+        '}': ['BracketRight','shift'],
+        '|': ['Backslash','shift'],
+        "'":[ 'Quote'],
+        '"': ['Quote','shift'],
+        ';': ['Semicolon'],
+        ':': ['Semicolon','shift'],
+        '/':[ 'Slash'],
+        '?': ['Slash','shift'],
+        '.':[ 'Period'],
+        '>': ['Period','shift'],
+        ',':[ 'Comma'],
+        '<': ['Comma','shift']
+    }
+    var typingArea = document.getElementById('typing-area'),
+topicSelector = document.getElementById('topics'),
+rightTypedSpan = document.getElementById('right-typed'),
+rightTyped =  document.getElementsByClassName('right'),
+wrongTyped = document.getElementsByClassName('wrong'),
+wrongTypedSpan = document.getElementById('mistyped'),
+typingSpeed = document.getElementById('typing-speed'),
+starterBt = document.getElementById('start-timer-bt'),
+allCharacters = document.getElementsByClassName('characters'),
+timerSeconds = document.getElementById('timer-sc'),
+minutes = document.getElementById('timer-min'),
+timerContainer = document.getElementById('time-container'),
+setCounter,
+resumeCounter,
+charTimer,
+shiftKey = false,
+activeChar = document.getElementsByClassName('active_char')[0],
+todayDate = document.getElementById('today_date'),
+rightTypedPercentage = document.getElementById('right-percentage'),
+wrongTypedPercentage = document.getElementById('wrong-percentage'),
+rightTypedProg = document.getElementById('right-prog'),
+wrongTypedProg = document.getElementById('wrong-prog'),
+retypedProg = document.getElementById('retyped-prog'),
+retypedPercentage = document.getElementById('retyped-percentage'),
+typingProgress = document.getElementById('typing-prog'),
+retyped = document.getElementsByClassName('retyped-right'),
+dashBoard = document.getElementById('dash-board'),
+totalSeconds = document.getElementById('total_sec'),
+totalMinutes = document.getElementById('total_min'),
+totalHours = document.getElementById('total_hours'),
+scoreAccuracy = document.getElementById('dash_accuracy'),
+scoreSpeed = document.getElementById('dash_speed'),
+attemptsList = document.getElementById('attempts'),
+stats = document.getElementById('stats');
+textToType = textMaker("Improvement at anything is based on thousands of tiny failures. If someone is better than you at something then it is likely because he has failed at it more than you have.");
+var txt1 = "Node.js is a cross-platform JavaScript runtime environment that can be used to build server-side and applications with JavaScript.";
+var txt2 = ["I"," ","stayed"," ","up"," ","pretty"," ","late"," ","that"," ","night"," ","reading"," ","The"," ","Price"," ","of"," ","Dawn."," ","(Spoiler"," ","alert:"," ","The"," ","price"," ","of"," ","dawn"," ","is"," ","blood.)"," ","It"," ","wasn’t"," ","An"," ","Imperial"," ","Affliction,"," ","but"," ","the"," ","protagonist,"," ","Staff"," ","Sergeant"," ","Max"," ","Mayhem,"," ","was"," ","vaguely"," ","likable"," ","despite"," ","killing,"," ","by"," ","my"," ","count,"," ","no"," ","fewer"," ","than"," ","118"," ","individuals"," ","in"," ","284"," ","pages."];
+var txt3 = ["Don't"," ","hope"," ","for"," ","a"," ","life"," ","without"," ","problems"," ","but"," ","for"," ","a"," ","life"," ","with"," ","good"," ","problems."," ","Problems"," ","never"," ","stop,"," ","they"," ","only"," ","get"," ","exchanged"," ","or"," ","upgraded."," ","Happiness"," ","is"," ","found"," ","in"," ","solving"," ","problems,"," ","not"," ","avoiding"," ","them."," ","True"," ","happiness"," ","occurs"," ","only"," ","when"," ","you"," ","find"," ","the"," ","problems"," ","you"," ","enjoy"," ","having"," ","and"," ","enjoy"," ","solving."];
+var allTexts = [null,txt1, txt2,txt3];
+var index = 0;
+var allwords =  document.getElementsByClassName('words');
+var charsAccurCont = document.getElementById('chars-stats');
+var dailyScoresCont = document.getElementById('daily-scores');
+var dt = new Date();
+var day = dt.getDate();
+var month = dt.getMonth() +1;
+var year = dt.getFullYear();
+var allCharactersObj ={
+    'a':[0],
+    'b':[0],
+    'c':[0],
+    'd':[0],
+    'e':[0],
+    'f':[0],
+    'g':[0],
+    'h':[0],
+    'i':[0],
+    'j':[0],
+    'k':[0],
+    'l':[0],
+    'm':[0],
+    'n':[0],
+    'o':[0],
+    'p':[0],
+    'q':[0],
+    'r':[0],
+    's':[0],
+    't':[0],
+    'u':[0],
+    'v':[0],
+    'w':[0],
+    'x':[0],
+    'y':[0],
+    'z':[0],
+};
+var userText = document.getElementById('user-text');
+var monthsContainer = document.getElementById('all_months_container');
+var levelSelector = document.getElementById('levels_selector');
+var months =  document.getElementsByClassName('month_container');
+var monthsIndx = 1;
+var digits = ["444444 666666 464646 66664444 444666444666 4444444 6666666 4 6 4 6 66664444", 
+            "555555 777777 575757 77775555 555777555777 5555555 7777777 5 7 5 7 77775555",
+            "333333 888888 383838 88883333 333888333888 3333333 8888888 3 8 3 8 88883333",
+            "222222 999999 292929 99992222 222999222999 2222222 9999999 2 9 2 9 99992222",
+            "111111 000000 101010 00001111 111000111000 1111111 0000000 1 0 1 0 00001111",
+        ];
+var resviseChars =["rrrrrr uuuuuu rururu uuuurrrr rrruuurrruuu rrrrrr fff fffjjjfffjjj fffffff jjjjjjj f j f j jjjjffff", 
+"vvvvvv mmmmmm vmvmvm mmmmvvvv vvvmmmvvvmmm vvvvvv rrr rrruuurrruuu rrrrrrr uuuuuuu r u r u uuuurrrr", 
+"gggggg hhhhhh ghghgh hhhhgggg ggghhhggghhh gggggg vvv vvvmmmvvvmmm vvvvvvv mmmmmmm v m v m mmmmvvvv", 
+"tttttt yyyyyy tytyty yyyytttt tttyyytttyyy ttttttt ggg ggghhhggghhh ggggggg hhhhhhh g h g h hhhhgggg", 
+"bbbbbb nnnnnn bnbnbn nnnnbbbb bbbnnnbbbnnn bbbbbb ttt tttyyytttyyy ttttttt yyyyyyy t y t y yyyytttt", 
+"dddddd kkkkkk dkdkdk kkkkdddd dddkkkdddkkk ddddddd", 
+"eeeeee iiiiii eieiei iiiieeee eeeiiieeeiii eeeeeee ddd dddkkkdddkkk ddddddd kkkkkkk d k d k kkkkdddd", 
+"cccccc ,,,,,, c,c,c, ,,,,cccc ccc,,,ccc,,, ccccccc eee eeeiiieeeiii eeeeeee iiiiiii e i e i iiiieeee", 
+"ssssss llllll slslsl llllssss ssslllssslll sssssss", 
+"wwwwww oooooo wowowo oooowwww wwwooowwwooo wwwwwww sss ssslllssslll sssssss lllllll s l s l llllssss", 
+"xxxxxx ...... x.x.x. ....xxxx xxx...xxx... xxxxxxx www wwwooowwwooo wwwwwww ooooooo w o w o oooowwww", 
+"aaaaaa ;;;;;; a;a;a; ;;;;aaaa aaa;;;aaa;;; aaaaaaa", 
+"qqqqqq pppppp qpqpqp ppppqqqq qqqpppqqqppp qqqqqqq aaa aaa;;;aaa;;; aaaaaaa ;;;;;;; a ; a ; ;;;;aaaa", 
+"zzzzzz ////// z/z/z/ ////zzzz zzz///zzz/// zzzzzzz qqq qqqpppqqqppp qqqqqqq ppppppp q p q p ppppqqqq"];
+var advanced = ["However, without proper training and practice, many individuals resort to hunt-and-peck typing, or looking down at the keyboard to select the right keys one-by-one. Mobile technology, such as tablets and smartphones, have also increased reliance on hunt-and-peck strategies.",
+"When practicing your typing skills, it's important to use proper hand placement. To start, keep your fingers positioned over the home row keys 'left hand over the A, S, D, and F keys, and the right hand over the J, K, L, and ; keys', with your thumbs hovering over the space bar. From here, you can move your fingers slightly to reach neighboring keys. Your hands should always return this starting position.",
+"These conventions are meant to help you familiarize yourself with the keyboard. As you become more experienced, you can experiment with different variations of this starting position to find the placement that is most comfortable and natural for you.",
+"Instead of looking down at your hands, focus on your screen. This can be difficult at first, especially if you have not yet mastered the exact placement of the keys. However, looking at the screen will help improve your accuracy because you will be able to catch your typos as they occur. You'll also begin to memorize the placement of the keys, so you'll be able to type more quickly as you practice.",
+`Maintain good posture 
+ Sitting in an upright position is going to make it easier to type faster. If you are used to slouching in your chair or working from the couch, try moving to a straight-backed chair or working at your desk.`,
+`Find a comfortable position for your hands 
+ The wrong hand placement can make it uncomfortable to type for extended periods of time. The space bar of your keyboard should be centered with your body, so that you are not reading your screen or typing from an angle. As you type, rest your elbows on the table and keep your wrists slightly elevated. You should never bend or angle your wrists dramatically.`,
+ "Improvement at anything is based on thousands of tiny failures. If someone is better than you at something then it is likely because he has failed at it more than you have.",
+ "Computer user must remember that move your body part such hand, leg, back and neck every day for 10 minutes. You can also get up and take short walk break in your office time. They must do exercise with a day.",
+ "Whole day computer use the 20-20-20 rule. Computer use must take break after 20 minutes or after the 20 second. They must look at something 20 away.",
+ "Computer glasses are the specially made for computer work. Those glasses can allow your eyes to focus on the distance of computer screen. Computer glasses optimize your eyesight at time of you look for digital screen. It also helps you to reduce glare.",
+ "Computer user must incandescent lighting and avoids high-intensity lamps that cast shadows and make glare. Place a dim light on each side of work places to create equal brightness without dark, shadowed areas.",
+ "Computer user must make monitor with high resolution display. High resolution can process sharper type and crisper images and also reduce eye strain.",
+ "Placing keyboards, pointing devices or working surface to high or too low can cause awkward wrist, arm and shoulder postures.",
+ "User must clean their computer monitor daily to reduce dust and consider installing an anti-glare screen. It can also useful to maintain shades drawn to stop glare from outside sources.",
+ "You can do the massage around the area of area of eyes which help you to relax the muscles and it is very comfortable. Also you can rub your hands together to make friction and warmth, after that you can cup your palms over closed eyes and rest them.",
+ `"The purpose of our lives is to be happy." _ Dalai Lama`,
+ `"Life is what happens when you're busy making other plans."_ John Lennon`,
+ `"Get busy living or get busy dying." _ Stephen King`,
+ `"You only live once, but if you do it right, once is enough." _ Mae West`,
+ `"Many of life's failures are people who did not realize how close they were to success when they gave up."_ Thomas A. Edison`,
+ `"If you want to live a happy life, tie it to a goal, not to people or things."_ Albert Einstein`,
+ `"Never let the fear of striking out keep you from playing the game."_ Babe Ruth`,
+ `"Money and success don't change people; they merely amplify what is already there." _ Will Smith`,
+ `"Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma _ which is living with the results of other people's thinking." _ Steve Jobs`,
+ `"Not how long, but how well you have lived is the main thing." _ Seneca`,
+ `"If life were predictable it would cease to be life, and be without flavor." _ Eleanor Roosevelt`,
+ `"The whole secret of a successful life is to find out what is one's destiny to do, and then do it."_ Henry Ford`,
+ `"In order to write about life first you must live it."_ Ernest Hemingway`,
+ `"The big lesson in life, baby, is never be scared of anyone or anything."_ Frank Sinatra`,
+ `"Sing like no one's listening, love like you've never been hurt, dance like nobody's watching, and live like it's heaven on earth."_ (Attributed to various sources)`,
+ `"Curiosity about life in all of its aspects, I think, is still the secret of great creative people." _ Leo Burnett`,
+ `"Life is not a problem to be solved, but a reality to be experienced."_ Soren Kierkegaard`,
+ `"The unexamined life is not worth living." _ Socrates`,
+ `"Turn your wounds into wisdom." _ Oprah Winfrey`
+];
+var beginner = ["ffffff jjjjjj fjfjfj jjjjffff fffjjjfffjjj fffffff jjjjjjj f j f j jjjjffff",
+    "rrrrrr uuuuuu rururu uuuurrrr rrruuurrruuu rrrrrrr uuuuuuu r u r u uuuurrrr", 
+    "vvvvvv mmmmmm vmvmvm mmmmvvvv vvvmmmvvvmmm vvvvvvv mmmmmmm v m v m mmmmvvvv", 
+    "gggggg hhhhhh ghghgh hhhhgggg ggghhhggghhh ggggggg hhhhhhh g h g h hhhhgggg", 
+    "tttttt yyyyyy tytyty yyyytttt tttyyytttyyy ttttttt yyyyyyy t y t y yyyytttt", 
+    "bbbbbb nnnnnn bnbnbn nnnnbbbb bbbnnnbbbnnn bbbbbbb nnnnnnn b n b n nnnnbbbb", 
+    "dddddd kkkkkk dkdkdk kkkkdddd dddkkkdddkkk ddddddd kkkkkkk d k d k kkkkdddd", 
+    "eeeeee iiiiii eieiei iiiieeee eeeiiieeeiii eeeeeee iiiiiii e i e i iiiieeee", 
+    "cccccc ,,,,,, c,c,c, ,,,,cccc ccc,,,ccc,,, ccccccc ,,,,,,, c , c , ,,,,cccc", 
+    "ssssss llllll slslsl llllssss ssslllssslll sssssss lllllll s l s l llllssss", 
+    "wwwwww oooooo wowowo oooowwww wwwooowwwooo wwwwwww ooooooo w o w o oooowwww", 
+    "xxxxxx ...... x.x.x. ....xxxx xxx...xxx... xxxxxxx ....... x . x . ....xxxx",  
+    "aaaaaa ;;;;;; a;a;a; ;;;;aaaa aaa;;;aaa;;; aaaaaaa ;;;;;;; a ; a ; ;;;;aaaa", 
+    "qqqqqq pppppp qpqpqp ppppqqqq qqqpppqqqppp qqqqqqq ppppppp q p q p ppppqqqq", 
+    "zzzzzz ////// z/z/z/ ////zzzz zzz///zzz/// zzzzzzz /////// z / z / ////zzzz",
+    "rrrrrr uuuuuu rururu uuuurrrr rrruuurrruuu rrrrrr fff fffjjjfffjjj fffffff jjjjjjj f j f j jjjjffff", 
+    "vvvvvv mmmmmm vmvmvm mmmmvvvv vvvmmmvvvmmm vvvvvv rrr rrruuurrruuu rrrrrrr uuuuuuu r u r u uuuurrrr", 
+    "gggggg hhhhhh ghghgh hhhhgggg ggghhhggghhh gggggg vvv vvvmmmvvvmmm vvvvvvv mmmmmmm v m v m mmmmvvvv", 
+    "tttttt yyyyyy tytyty yyyytttt tttyyytttyyy ttttttt ggg ggghhhggghhh ggggggg hhhhhhh g h g h hhhhgggg", 
+    "bbbbbb nnnnnn bnbnbn nnnnbbbb bbbnnnbbbnnn bbbbbb ttt tttyyytttyyy ttttttt yyyyyyy t y t y yyyytttt", 
+    "dddddd kkkkkk dkdkdk kkkkdddd dddkkkdddkkk ddddddd", 
+    "eeeeee iiiiii eieiei iiiieeee eeeiiieeeiii eeeeeee ddd dddkkkdddkkk ddddddd kkkkkkk d k d k kkkkdddd", 
+    "cccccc ,,,,,, c,c,c, ,,,,cccc ccc,,,ccc,,, ccccccc eee eeeiiieeeiii eeeeeee iiiiiii e i e i iiiieeee", 
+    "ssssss llllll slslsl llllssss ssslllssslll sssssss", 
+    "wwwwww oooooo wowowo oooowwww wwwooowwwooo wwwwwww sss ssslllssslll sssssss lllllll s l s l llllssss", 
+    "xxxxxx ...... x.x.x. ....xxxx xxx...xxx... xxxxxxx www wwwooowwwooo wwwwwww ooooooo w o w o oooowwww", 
+    "aaaaaa ;;;;;; a;a;a; ;;;;aaaa aaa;;;aaa;;; aaaaaaa", 
+    "qqqqqq pppppp qpqpqp ppppqqqq qqqpppqqqppp qqqqqqq aaa aaa;;;aaa;;; aaaaaaa ;;;;;;; a ; a ; ;;;;aaaa", 
+    "zzzzzz ////// z/z/z/ ////zzzz zzz///zzz/// zzzzzzz qqq qqqpppqqqppp qqqqqqq ppppppp q p q p ppppqqqq",
+    "444444 666666 464646 66664444 444666444666 4444444 6666666 4 6 4 6 66664444", 
+    "555555 777777 575757 77775555 555777555777 5555555 7777777 5 7 5 7 77775555",
+    "333333 888888 383838 88883333 333888333888 3333333 8888888 3 8 3 8 88883333",
+    "222222 999999 292929 99992222 222999222999 2222222 9999999 2 9 2 9 99992222",
+    "111111 000000 101010 00001111 111000111000 1111111 0000000 1 0 1 0 00001111",
+];
+/* Keyboard global variable*/
+        var key_name,
+        rightShiftKey =  document.getElementById('ShiftRight'),
+        leftShiftKey =  document.getElementById('ShiftLeft'),
+        leftLittleFinger = document.getElementById('left_little'),
+        leftMiddleFinger = document.getElementById('left_middle'),
+        leftRingFinger = document.getElementById('left_ring'),
+        leftIndexFinger = document.getElementById('left_index'),
+        leftThumbFinger = document.getElementById('left_thumb'),
+        rightLittleFinger = document.getElementById('right_little'),
+        rightMiddleFinger = document.getElementById('right_middle'),
+        rightRingFinger = document.getElementById('right_ring'),
+        rightIndexFinger = document.getElementById('right_index'),
+        rightThumbFinger = document.getElementById('right_thumb');
+        var allKeys = document.getElementsByClassName('keyboard_key');
+        var attemptsMins =document.getElementsByClassName('attmpt-min');
+        var attemptsScs = document.getElementsByClassName('attmpt-sc');
+typingAreaMaker();
+startingFunctions();
+animationMaker();
+var menuBar = document.getElementById('menu')
+window.addEventListener('scroll', () =>{
+    if(window.scrollY > 70){
+        menuBar.style.position = "fixed";
+        menuBar.style.width="100%"
+        menuBar.style.bottom="1px";
+
+    }
+    else{ menuBar.removeAttribute('style')}
+});
+    </script>
+</body>
+</html>
